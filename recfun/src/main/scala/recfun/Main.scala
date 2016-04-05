@@ -32,12 +32,14 @@ object Main {
       if (chars.isEmpty) {
         true
       } else {
-        if (chars.head == ')') {
-          false
-        } else if (chars.head == '(') {
+        if (chars.head == '(') {
           balanceWithExpectedParen(chars.tail, expectedParens + 1)
         } else if (chars.head == ')') {
-          balanceWithExpectedParen(chars.tail, expectedParens - 1)
+          if (expectedParens < 1) {
+            false
+          } else {
+            balanceWithExpectedParen(chars.tail, expectedParens - 1)
+          }
         } else {
           balanceWithExpectedParen(chars.tail, expectedParens)
         }
@@ -49,5 +51,10 @@ object Main {
   /**
    * Exercise 3
    */
-  def countChange(money: Int, coins: List[Int]): Int = ???
+  def countChange(money: Int, coins: List[Int]): Int = {
+    if (money == 0) 1
+    else if (money < 0 || coins.isEmpty) 0
+    else if (money <= 0 && !coins.isEmpty) 0
+    else countChange(money, coins.tail) + countChange(money - coins.head, coins)
+  }
 }
