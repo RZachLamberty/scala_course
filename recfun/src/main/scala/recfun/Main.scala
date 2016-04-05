@@ -27,7 +27,24 @@ object Main {
   /**
    * Exercise 2
    */
-  def balance(chars: List[Char]): Boolean = ???
+  def balance(chars: List[Char]): Boolean = {
+    def balanceWithExpectedParen(chars: List[Char], expectedParens: Int): Boolean = {
+      if (chars.isEmpty) {
+        true
+      } else {
+        if (chars.head == ')') {
+          false
+        } else if (chars.head == '(') {
+          balanceWithExpectedParen(chars.tail, expectedParens + 1)
+        } else if (chars.head == ')') {
+          balanceWithExpectedParen(chars.tail, expectedParens - 1)
+        } else {
+          balanceWithExpectedParen(chars.tail, expectedParens)
+        }
+      }
+    }
+    balanceWithExpectedParen(chars, 0)
+  }
 
   /**
    * Exercise 3
