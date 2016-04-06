@@ -77,6 +77,9 @@ class FunSetSuite extends FunSuite {
     val s1 = singletonSet(1)
     val s2 = singletonSet(2)
     val s3 = singletonSet(3)
+    val sNegPos = union(singletonSet(-1), union(singletonSet(0), singletonSet(1)))
+    def isNeg = (x: Int) => x < 0
+    def isBigger(lowLim: Int) = (x: Int) => x > lowLim
   }
 
   /**
@@ -100,6 +103,12 @@ class FunSetSuite extends FunSuite {
       assert(contains(s1, 1), "Singleton")
     }
   }
+  
+  test("singletonSet(1) does not contain 2") {
+    new TestSets {
+      assert(!contains(s1, 2), "Singleton not 2")
+    }
+  }
 
   test("union contains all elements of each set") {
     new TestSets {
@@ -110,5 +119,22 @@ class FunSetSuite extends FunSuite {
     }
   }
 
-
+  test("forall -1, 0, 1 isNeg = false") {
+    new TestSets {
+      assert(!forall(sNegPos, isNeg))
+    }
+  }
+  
+  test("exists -1, 0, 1 isNeg = true") {
+    new TestSets {
+      assert(exists(sNegPos, isNeg))
+    }
+  }
+  
+  test("forall -1, 0, 1 isBigger(-10) = true") {
+    new TestSets {
+      assert(exists(sNegPos, isBigger(-10)))
+    }
+  }
+  
 }
